@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="OptiSize Pro - Advanced online image resizer and file size optimizer. Resize, compress, and convert images without quality loss.">
+    <meta name="keywords" content="image resizer, photo compressor, file size optimizer, image converter, webp converter, png to jpg">
+    <meta name="author" content="OptiSize Pro">
+    <title>OptiSize Pro - Precision Resizing. Ultimate File Control.</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1>OptiSize Pro</h1>
+                    <span class="slogan">Precision Resizing. Ultimate File Control.</span>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#how-it-works">How It Works</a></li>
+                        <li><a href="#pricing">Pricing</a></li>
+                        <li><a href="#faq">FAQ</a></li>
+                    </ul>
+                </nav>
+                <a href="#upload-section" class="cta-button">Get Started Free</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="hero">
+            <div class="hero-content">
+                <h2>Optimize Your Images. Elevate Your Content.</h2>
+                <p>Resize, compress, and convert images without quality loss. Perfect for web developers, photographers, and content creators.</p>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <span class="stat-number">10K+</span>
+                        <span class="stat-label">Images Processed Daily</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">95%</span>
+                        <span class="stat-label">Average Size Reduction</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">50+</span>
+                        <span class="stat-label">Supported Formats</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="upload-section" class="upload-section">
+            <div class="upload-zone" id="uploadZone">
+                <div class="upload-icon">📁</div>
+                <h2>Drag & Drop Your Images Here</h2>
+                <p>Supports JPG, PNG, WEBP, GIF, TIFF, BMP • Up to 50 images per session</p>
+                <div class="upload-buttons">
+                    <button class="btn btn-primary" id="browseButton">
+                        <span class="btn-icon">📂</span> Browse Files
+                    </button>
+                    <button class="btn btn-secondary" id="pasteButton">
+                        <span class="btn-icon">📋</span> Paste from Clipboard
+                    </button>
+                </div>
+            </div>
+            <input type="file" id="fileInput" multiple accept="image/*" style="display: none;">
+            <div class="progress-container hidden" id="progressContainer">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <p id="progressText">Uploading: 0%</p>
+            </div>
+        </section>
+
+        <section class="image-grid hidden" id="imageGrid">
+            <!-- Images will be dynamically added here -->
+        </section>
+
+        <section class="settings-panel hidden" id="settingsPanel">
+            <div class="settings-header">
+                <h3>Optimization Settings</h3>
+                <div class="selection-info" id="selectionInfo">No images selected</div>
+            </div>
+            
+            <div class="settings-tabs">
+                <div class="tab active" data-tab="resize">Resize</div>
+                <div class="tab" data-tab="optimize">Optimize</div>
+                <div class="tab" data-tab="format">Format</div>
+                <div class="tab" data-tab="advanced">Advanced</div>
+            </div>
+
+            <div class="settings-content active" id="resizeTab">
+                <div class="form-group">
+                    <label for="widthInput">Dimensions</label>
+                    <div class="form-row">
+                        <div class="input-with-label">
+                            <input type="number" class="form-control" id="widthInput" placeholder="Width" min="1">
+                            <span class="input-label">Width</span>
+                        </div>
+                        <div class="input-with-label">
+                            <input type="number" class="form-control" id="heightInput" placeholder="Height" min="1">
+                            <span class="input-label">Height</span>
+                        </div>
+                        <div class="input-with-label">
+                            <select class="form-control" id="unitSelect">
+                                <option value="px">px</option>
+                                <option value="%">%</option>
+                                <option value="cm">cm</option>
+                                <option value="in">in</option>
+                            </select>
+                            <span class="input-label">Unit</span>
+                        </div>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="aspectRatio" checked>
+                        <label for="aspectRatio">Maintain Aspect Ratio</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="resizeMode">Resize Mode</label>
+                    <select class="form-control" id="resizeMode">
+                        <option value="fit">Fit (Preserve aspect ratio)</option>
+                        <option value="fill">Fill (Crop to fit)</option>
+                        <option value="stretch">Stretch (Ignore aspect ratio)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="presetSelect">Quick Presets</label>
+                    <select class="form-control" id="presetSelect">
+                        <option value="custom">Custom Settings</option>
+                        <option value="web">Web Large (1920px)</option>
+                        <option value="social">Social Media (1080px)</option>
+                        <option value="thumbnail">Thumbnail (300px)</option>
+                        <option value="print">Print (A4 - 300 DPI)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="scaleSlider">Percentage Scaling: <span id="scaleValue">100%</span></label>
+                    <div class="slider-container">
+                        <input type="range" min="10" max="400" value="100" class="slider" id="scaleSlider">
+                        <div class="slider-labels">
+                            <span>10%</span>
+                            <span>400%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="settings-content" id="optimizeTab">
+                <div class="form-group">
+                    <label for="targetSize">Target File Size (Optional)</label>
+                    <div class="form-row">
+                        <div class="input-with-label">
+                            <input type="number" class="form-control" id="targetSize" placeholder="Max size" min="1">
+                            <span class="input-label">Size</span>
+                        </div>
+                        <select class="form-control" id="sizeUnit">
+                            <option value="KB">KB</option>
+                            <option value="MB">MB</option>
+                        </select>
+                    </div>
+                    <p class="help-text">Leave empty for automatic optimization</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="qualitySlider">Quality: <span id="qualityValue">85%</span></label>
+                    <div class="slider-container">
+                        <input type="range" min="0" max="100" value="85" class="slider" id="qualitySlider">
+                        <div class="slider-labels">
+                            <span>Smaller File</span>
+                            <span>Better Quality</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="algorithmSelect">Resampling Algorithm</label>
+                    <select class="form-control" id="algorithmSelect">
+                        <option value="bicubic">Bicubic (Best, Sharp) - Default</option>
+                        <option value="bilinear">Bilinear (Good, Smooth)</option>
+                        <option value="nearest">Nearest Neighbor (Fast, Pixelated)</option>
+                        <option value="lanczos">Lanczos (Superior, Advanced)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="settings-content" id="formatTab">
+                <div class="form-group">
+                    <label for="formatSelect">Output Format</label>
+                    <select class="form-control" id="formatSelect">
+                        <option value="jpg">JPG (Best for photos)</option>
+                        <option value="png">PNG (Best for graphics)</option>
+                        <option value="webp">WEBP (Modern, smaller)</option>
+                        <option value="gif">GIF (For animations)</option>
+                    </select>
+                </div>
+
+                <div class="form-group hidden" id="transparencyGroup">
+                    <label>Transparency</label>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="preserveTransparency" checked>
+                        <label for="preserveTransparency">Preserve Transparency</label>
+                    </div>
+                    <div class="form-row mt-2 hidden" id="backgroundColorGroup">
+                        <div class="input-with-label">
+                            <input type="color" class="form-control" id="backgroundColor" value="#ffffff">
+                            <span class="input-label">Color</span>
+                        </div>
+                        <div class="input-with-label">
+                            <input type="text" class="form-control" id="backgroundHex" placeholder="#FFFFFF">
+                            <span class="input-label">HEX</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="settings-content" id="advancedTab">
+                <div class="form-group">
+                    <label>Metadata</label>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="preserveMetadata">
+                        <label for="preserveMetadata">Preserve EXIF Data</label>
+                    </div>
+                    <p class="help-text">Turn off for better privacy and smaller file sizes</p>
+                </div>
+
+                <div class="form-group">
+                    <label>Image Transformations</label>
+                    <div class="form-row">
+                        <button class="btn btn-outline" id="rotateLeft">↶ Rotate Left</button>
+                        <button class="btn btn-outline" id="rotateRight">↷ Rotate Right</button>
+                        <button class="btn btn-outline" id="flipHorizontal">↔ Flip H</button>
+                        <button class="btn btn-outline" id="flipVertical">↕ Flip V</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Watermark (Premium Feature)</label>
+                    <div class="premium-badge">PREMIUM</div>
+                    <div class="form-row">
+                        <input type="text" class="form-control" id="watermarkText" placeholder="Watermark text" disabled>
+                        <button class="btn btn-outline" disabled>Upload Image</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="settings-actions">
+                <button class="btn btn-primary" id="applySettings">
+                    <span class="btn-icon">⚡</span> Apply to Selected
+                </button>
+                <button class="btn btn-secondary" id="applyAll">Apply to All</button>
+                <button class="btn btn-outline" id="resetSettings">Reset Settings</button>
+            </div>
+        </section>
+
+        <section class="preview-section hidden" id="previewSection">
+            <h3>Preview & Comparison</h3>
+            <div class="preview-container">
+                <div class="preview-box">
+                    <h4>Original</h4>
+                    <div class="preview-image" id="beforePreview">
+                        <div class="preview-placeholder">
+                            <span>Select an image to preview</span>
+                        </div>
+                    </div>
+                    <div class="preview-details">
+                        <span id="beforeDimensions">-</span>
+                        <span id="beforeSize">-</span>
+                    </div>
+                </div>
+                <div class="preview-box">
+                    <h4>Optimized</h4>
+                    <div class="preview-image" id="afterPreview">
+                        <div class="preview-placeholder">
+                            <span>Apply settings to see result</span>
+                        </div>
+                    </div>
+                    <div class="preview-details">
+                        <span id="afterDimensions">-</span>
+                        <span id="afterSize">-</span>
+                    </div>
+                </div>
+                <div class="preview-box">
+                    <h4>Comparison</h4>
+                    <div class="comparison-slider" id="comparisonSlider">
+                        <div class="comparison-before">
+                            <img id="beforeComparison" src="" alt="Before">
+                        </div>
+                        <img id="afterComparison" src="" alt="After">
+                        <div class="slider-handle">
+                            <div class="slider-arrow"></div>
+                        </div>
+                    </div>
+                    <div class="preview-details">
+                        <span>Drag to compare</span>
+                        <span id="sizeReduction">-</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="download-section hidden" id="downloadSection">
+            <div class="download-header">
+                <h3>Ready to Download</h3>
+                <p>Your optimized images are ready. Total size reduction: <span id="totalReduction">0%</span></p>
+            </div>
+            <div class="download-actions">
+                <button class="btn btn-success btn-large" id="downloadAll">
+                    <span class="btn-icon">📥</span> Download All as ZIP
+                </button>
+                <button class="btn btn-primary btn-large" id="downloadSelected">
+                    <span class="btn-icon">📥</span> Download Selected
+                </button>
+            </div>
+        </section>
+
+        <section id="features" class="features-section">
+            <h2>Advanced Features for Professionals</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🖼️</div>
+                    <h4>Batch Processing</h4>
+                    <p>Process up to 50 images simultaneously with consistent settings across all files.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h4>Smart Compression</h4>
+                    <p>Advanced algorithms reduce file size while maintaining visual quality.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔧</div>
+                    <h4>Format Conversion</h4>
+                    <p>Convert between JPG, PNG, WEBP, GIF with optimized settings for each format.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📐</div>
+                    <h4>Precise Resizing</h4>
+                    <p>Multiple resize modes and algorithms for different use cases.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>OptiSize Pro</h3>
+                    <p>Precision resizing and ultimate file control for all your image optimization needs.</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Twitter">🐦</a>
+                        <a href="#" aria-label="GitHub">💻</a>
+                        <a href="#" aria-label="LinkedIn">👔</a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Product</h4>
+                    <ul>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#pricing">Pricing</a></li>
+                        <li><a href="#">API</a></li>
+                        <li><a href="#">Changelog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#how-it-works">How It Works</a></li>
+                        <li><a href="#faq">FAQ</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Documentation</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2023 OptiSize Pro. All rights reserved. Made with ❤️ for the creative community.
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+      </html>
