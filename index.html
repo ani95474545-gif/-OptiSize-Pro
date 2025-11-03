@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OptiSize Pro - Precision Resizing. Ultimate File Control.</title>
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --secondary: #7209b7;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #4bb543;
+            --warning: #ffcc00;
+            --danger: #dc3545;
+            --gray: #6c757d;
+            --gray-light: #e9ecef;
+            --border-radius: 8px;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fb;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1.5rem 0;
+            box-shadow: var(--shadow);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .logo .slogan {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 12px;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+        }
+
+        nav a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .cta-button {
+            background-color: white;
+            color: var(--primary);
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Main Content */
+        main {
+            padding: 2rem 0;
+        }
+
+        .upload-section {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+
+        .upload-zone {
+            border: 2px dashed var(--gray-light);
+            border-radius: var(--border-radius);
+            padding: 3rem 2rem;
+            text-align: center;
+            transition: var(--transition);
+            cursor: pointer;
+            margin-bottom: 1rem;
+        }
+
+        .upload-zone:hover, .upload-zone.drag-over {
+            border-color: var(--primary);
+            background-color: rgba(67, 97, 238, 0.05);
+        }
+
+        .upload-zone i {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .upload-zone h2 {
+            margin-bottom: 0.5rem;
+        }
+
+        .upload-zone p {
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+        }
+
+        .upload-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .btn-secondary {
+            background-color: var(--gray-light);
+            color: var(--dark);
+        }
+
+        .btn-secondary:hover {
+            background-color: #d1d5db;
+        }
+
+        .btn-success {
+            background-color: var(--success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background-color: #3fa037;
+        }
+
+        .btn-danger {
+            background-color: var(--danger);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+
+        /* Image Grid */
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .image-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .image-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .image-card.selected {
+            border: 2px solid var(--primary);
+        }
+
+        .image-preview {
+            height: 180px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .image-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .image-info {
+            padding: 1rem;
+        }
+
+        .image-info h3 {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .image-details {
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+
+        .image-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 0.5rem;
+        }
+
+        .image-actions button {
+            background: none;
+            border: none;
+            color: var(--gray);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .image-actions button:hover {
+            color: var(--primary);
+        }
+
+        /* Settings Panel */
+        .settings-panel {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+
+        .settings-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--gray-light);
+            margin-bottom: 1.5rem;
+        }
+
+        .tab {
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            font-weight: 500;
+            border-bottom: 2px solid transparent;
+            transition: var(--transition);
+        }
+
+        .tab.active {
+            border-bottom-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .settings-content {
+            display: none;
+        }
+
+        .settings-content.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--gray-light);
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .checkbox-group input {
+            width: auto;
+        }
+
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .slider {
+            flex: 1;
+            -webkit-appearance: none;
+            height: 6px;
+            border-radius: 3px;
+            background: var(--gray-light);
+            outline: none;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+        }
+
+        .preview-section {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+
+        .preview-container {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .preview-box {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .preview-box h3 {
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--gray-light);
+        }
+
+        .preview-image {
+            width: 100%;
+            height: 300px;
+            border: 1px solid var(--gray-light);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f8f9fa;
+        }
+
+        .preview-image img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .preview-details {
+            margin-top: 1rem;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .comparison-slider {
+            position: relative;
+            width: 100%;
+            height: 300px;
+            overflow: hidden;
+            border-radius: var(--border-radius);
+        }
+
+        .comparison-slider img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            position: absolute;
+            top: 0;
+        }
+
+        .comparison-slider .before {
+            z-index: 1;
+            width: 50%;
+            overflow: hidden;
+        }
+
+        .comparison-slider .slider-handle {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background-color: var(--primary);
+            cursor: ew-resize;
+            z-index: 2;
+        }
+
+        .comparison-slider .slider-handle::after {
+            content: '';
+            position: absolute;
+            left: -8px;
+            top: 50%;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            transform: translateY(-50%);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .footer-section {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section a {
+            color: #adb5bd;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-section a:hover {
+            color: white;
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid #495057;
+            color: #adb5bd;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .form-row {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .preview-container {
+                flex-direction: column;
+            }
+        }
+
+        /* Utility Classes */
+        .hidden {
+            display: none !important;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .mb-2 {
+            margin-bottom: 1rem;
+        }
+
+        .mt-2 {
+            margin-top: 1rem;
+        }
+
+        .d-flex {
+            display: flex;
+        }
+
+        .justify-between {
+            justify-content: space-between;
+        }
+
+        .align-center {
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1>OptiSize Pro</h1>
+                    <span class="slogan">Precision Resizing. Ultimate File Control.</span>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">Features</a></li>
+                        <li><a href="#">Pricing</a></li>
+                        <li><a href="#">Help</a></li>
+                    </ul>
+                </nav>
+                <a href="#" class="cta-button">Upgrade to Premium</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="upload-section">
+            <div class="upload-zone" id="uploadZone">
+                <i>📁</i>
+                <h2>Drag & Drop Your Images Here</h2>
+                <p>Supports JPG, PNG, WEBP, GIF, TIFF, BMP</p>
+                <p>Up to 50 images per session</p>
+                <div class="upload-buttons">
+                    <button class="btn btn-primary" id="browseButton">
+                        <i>📂</i> Browse Files
+                    </button>
+                    <button class="btn btn-secondary" id="pasteButton">
+                        <i>📋</i> Paste from Clipboard
+                    </button>
+                </div>
+            </div>
+            <input type="file" id="fileInput" multiple accept="image/*" style="display: none;">
+            <div class="progress-container hidden" id="progressContainer">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <p id="progressText">Uploading: 0%</p>
+            </div>
+        </section>
+
+        <section class="image-grid hidden" id="imageGrid">
+            <!-- Images will be dynamically added here -->
+        </section>
+
+        <section class="settings-panel hidden" id="settingsPanel">
+            <div class="settings-tabs">
+                <div class="tab active" data-tab="resize">Resize</div>
+                <div class="tab" data-tab="optimize">Optimize</div>
+                <div class="tab" data-tab="format">Format</div>
+                <div class="tab" data-tab="advanced">Advanced</div>
+            </div>
+
+            <div class="settings-content active" id="resizeTab">
+                <div class="form-group">
+                    <label>Dimensions</label>
+                    <div class="form-row">
+                        <div style="flex: 1;">
+                            <input type="number" class="form-control" id="widthInput" placeholder="Width">
+                        </div>
+                        <div style="flex: 1;">
+                            <input type="number" class="form-control" id="heightInput" placeholder="Height">
+                        </div>
+                        <div>
+                            <select class="form-control" id="unitSelect">
+                                <option value="px">px</option>
+                                <option value="%">%</option>
+                                <option value="cm">cm</option>
+                                <option value="in">in</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="aspectRatio" checked>
+                        <label for="aspectRatio">Maintain Aspect Ratio</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Resize Mode</label>
+                    <select class="form-control" id="resizeMode">
+                        <option value="fit">Fit (Preserve aspect ratio)</option>
+                        <option value="fill">Fill (Crop to fit)</option>
+                        <option value="stretch">Stretch (Ignore aspect ratio)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Presets</label>
+                    <select class="form-control" id="presetSelect">
+                        <option value="custom">Custom</option>
+                        <option value="web">Web (1920px)</option>
+                        <option value="social">Social Media (1080px)</option>
+                        <option value="print">Print (A4 - 300 DPI)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Percentage Scaling</label>
+                    <div class="slider-container">
+                        <input type="range" min="10" max="400" value="100" class="slider" id="scaleSlider">
+                        <span id="scaleValue">100%</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Resampling Algorithm</label>
+                    <select class="form-control" id="algorithmSelect">
+                        <option value="bicubic">Bicubic (Best, Sharp) - Default</option>
+                        <option value="bilinear">Bilinear (Good, Smooth)</option>
+                        <option value="nearest">Nearest Neighbor (Fast, Pixelated)</option>
+                        <option value="lanczos">Lanczos (Superior, Advanced)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="settings-content" id="optimizeTab">
+                <div class="form-group">
+                    <label>Target File Size</label>
+                    <div class="form-row">
+                        <input type="number" class="form-control" id="targetSize" placeholder="Max file size">
+                        <select class="form-control" id="sizeUnit">
+                            <option value="KB">KB</option>
+                            <option value="MB">MB</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Quality</label>
+                    <div class="slider-container">
+                        <input type="range" min="0" max="100" value="85" class="slider" id="qualitySlider">
+                        <span id="qualityValue">85%</span>
+               
