@@ -3,80 +3,254 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Image to PDF Generator</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>StreamTube - YouTube Clone</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>📄 Image to PDF Generator</h1>
-            <p>Convert your images to PDF files easily</p>
-        </header>
-
-        <div class="upload-area" id="uploadArea">
-            <div class="upload-content">
-                <div class="upload-icon">📁</div>
-                <h3>Drag & Drop Images Here</h3>
-                <p>or</p>
-                <button class="btn-primary" id="browseBtn">Browse Files</button>
-                <input type="file" id="fileInput" multiple accept="image/*" style="display: none;">
-            </div>
-        </div>
-
-        <div class="image-preview" id="imagePreview">
-            <h3>Selected Images (<span id="imageCount">0</span>)</h3>
-            <div class="preview-container" id="previewContainer">
-                <p class="no-images">No images selected</p>
-            </div>
-        </div>
-
-        <div class="controls">
-            <div class="control-group">
-                <label for="pageSize">Page Size:</label>
-                <select id="pageSize">
-                    <option value="A4">A4</option>
-                    <option value="Letter">Letter</option>
-                    <option value="Legal">Legal</option>
-                </select>
+    <!-- Auth Overlay -->
+    <div id="auth-overlay" class="auth-overlay">
+        <div class="auth-container">
+            <div class="auth-header">
+                <div class="logo">
+                    <i class="fab fa-youtube"></i>
+                    <span>StreamTube</span>
+                </div>
+                <button class="close-btn" id="close-auth">
+                    <i class="fas fa-times"></i>
+                </button>
             </div>
             
-            <div class="control-group">
-                <label for="orientation">Orientation:</label>
-                <select id="orientation">
-                    <option value="portrait">Portrait</option>
-                    <option value="landscape">Landscape</option>
-                </select>
+            <div class="auth-tabs">
+                <button class="auth-tab active" data-tab="login">Sign In</button>
+                <button class="auth-tab" data-tab="signup">Sign Up</button>
             </div>
-        </div>
-
-        <div class="action-buttons">
-            <button class="btn-secondary" id="clearBtn" disabled>Clear All</button>
-            <button class="btn-primary" id="convertBtn" disabled>Convert to PDF</button>
-        </div>
-
-        <div class="progress-container" id="progressContainer" style="display: none;">
-            <div class="progress-bar">
-                <div class="progress-fill" id="progressFill"></div>
-            </div>
-            <p id="progressText">Converting images...</p>
-        </div>
-
-        <div class="result" id="result" style="display: none;">
-            <h3>✅ Conversion Complete!</h3>
-            <p>Your PDF is ready for download</p>
-            <a class="btn-download" id="downloadLink" download>Download PDF</a>
-        </div>
-
-        <div class="error-message" id="errorMessage" style="display: none;">
-            <h3>❌ Error</h3>
-            <p id="errorText"></p>
+            
+            <form id="login-form" class="auth-form active">
+                <div class="form-group">
+                    <input type="email" id="login-email" placeholder="Email" required>
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="login-password" placeholder="Password" required>
+                    <i class="fas fa-lock"></i>
+                </div>
+                <button type="submit" class="auth-btn">Sign In</button>
+                <div class="auth-divider">
+                    <span>or</span>
+                </div>
+                <button type="button" class="auth-btn google-btn">
+                    <i class="fab fa-google"></i>
+                    Sign in with Google
+                </button>
+            </form>
+            
+            <form id="signup-form" class="auth-form">
+                <div class="form-group">
+                    <input type="text" id="signup-username" placeholder="Username" required>
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="form-group">
+                    <input type="email" id="signup-email" placeholder="Email" required>
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="signup-password" placeholder="Password" required>
+                    <i class="fas fa-lock"></i>
+                </div>
+                <button type="submit" class="auth-btn">Sign Up</button>
+            </form>
         </div>
     </div>
 
-    <footer>
-        <p>Made with ❤️ using Flask & JavaScript</p>
-    </footer>
+    <!-- Main App -->
+    <div id="app" class="app">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-left">
+                <button class="menu-btn" id="menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="logo">
+                    <i class="fab fa-youtube"></i>
+                    <span>StreamTube</span>
+                </div>
+            </div>
+            
+            <div class="header-center">
+                <div class="search-container">
+                    <input type="text" id="search-input" placeholder="Search">
+                    <button class="search-btn" id="search-btn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="header-right">
+                <button class="header-btn" id="upload-btn">
+                    <i class="fas fa-video"></i>
+                    <span>Upload</span>
+                </button>
+                <button class="header-btn" id="auth-trigger">
+                    <i class="fas fa-user"></i>
+                    <span>Sign In</span>
+                </button>
+                <div class="user-profile" id="user-profile">
+                    <!-- User avatar will be inserted here -->
+                </div>
+            </div>
+        </header>
 
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+        <!-- Main Content -->
+        <div class="main-container">
+            <!-- Sidebar -->
+            <nav class="sidebar" id="sidebar">
+                <div class="sidebar-section">
+                    <a href="#" class="sidebar-item active">
+                        <i class="fas fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    <a href="#" class="sidebar-item">
+                        <i class="fas fa-fire"></i>
+                        <span>Trending</span>
+                    </a>
+                    <a href="#" class="sidebar-item">
+                        <i class="fas fa-play-circle"></i>
+                        <span>Subscriptions</span>
+                    </a>
+                </div>
+                
+                <div class="sidebar-section">
+                    <div class="sidebar-divider"></div>
+                    <a href="#" class="sidebar-item">
+                        <i class="fas fa-music"></i>
+                        <span>Music</span>
+                    </a>
+                    <a href="#" class="sidebar-item">
+                        <i class="fas fa-gamepad"></i>
+                        <span>Gaming</span>
+                    </a>
+                    <a href="#" class="sidebar-item">
+                        <i class="fas fa-newspaper"></i>
+                        <span>News</span>
+                    </a>
+                    <a href="#" class="sidebar-item">
+                        <i class="fas fa-trophy"></i>
+                        <span>Sports</span>
+                    </a>
+                </div>
+            </nav>
+
+            <!-- Content Area -->
+            <main class="content">
+                <!-- Video Grid -->
+                <div class="video-grid" id="video-grid">
+                    <!-- Videos will be dynamically loaded here -->
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Upload Modal -->
+    <div id="upload-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Upload Video</h3>
+                <button class="close-btn" id="close-upload">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="upload-form" class="upload-form">
+                <div class="form-group">
+                    <label for="video-title">Video Title</label>
+                    <input type="text" id="video-title" required>
+                </div>
+                <div class="form-group">
+                    <label for="video-description">Description</label>
+                    <textarea id="video-description" rows="4"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="video-category">Category</label>
+                    <select id="video-category">
+                        <option value="entertainment">Entertainment</option>
+                        <option value="music">Music</option>
+                        <option value="gaming">Gaming</option>
+                        <option value="education">Education</option>
+                        <option value="sports">Sports</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="video-thumbnail">Thumbnail</label>
+                    <input type="file" id="video-thumbnail" accept="image/*">
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" id="cancel-upload">Cancel</button>
+                    <button type="submit" class="btn-primary">Upload Video</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Video Player Modal -->
+    <div id="video-modal" class="modal">
+        <div class="modal-content video-modal-content">
+            <button class="close-btn" id="close-video">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="video-player-container">
+                <div class="video-player" id="video-player">
+                    <!-- Video will be loaded here -->
+                </div>
+                <div class="video-info">
+                    <h1 id="video-modal-title">Video Title</h1>
+                    <div class="video-stats">
+                        <span id="video-views">0 views</span>
+                        <span id="video-date">Jan 1, 2023</span>
+                    </div>
+                    <div class="video-actions">
+                        <div class="action-buttons">
+                            <button class="action-btn" id="like-btn">
+                                <i class="fas fa-thumbs-up"></i>
+                                <span id="like-count">0</span>
+                            </button>
+                            <button class="action-btn" id="dislike-btn">
+                                <i class="fas fa-thumbs-down"></i>
+                                <span id="dislike-count">0</span>
+                            </button>
+                            <button class="action-btn" id="share-btn">
+                                <i class="fas fa-share"></i>
+                                <span>Share</span>
+                            </button>
+                        </div>
+                        <button class="subscribe-btn" id="subscribe-btn">
+                            Subscribe
+                        </button>
+                    </div>
+                    <div class="channel-info">
+                        <div class="channel-avatar" id="channel-avatar">C</div>
+                        <div class="channel-details">
+                            <h4 id="channel-name">Channel Name</h4>
+                            <span id="channel-subs">0 subscribers</span>
+                        </div>
+                    </div>
+                    <div class="video-description">
+                        <p id="video-description-text">Video description goes here...</p>
+                    </div>
+                    <div class="comments-section">
+                        <h3>Comments</h3>
+                        <div class="add-comment">
+                            <div class="comment-avatar" id="comment-user-avatar">U</div>
+                            <input type="text" id="comment-input" placeholder="Add a comment...">
+                        </div>
+                        <div class="comments-list" id="comments-list">
+                            <!-- Comments will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
-      </html>
+    </html>
