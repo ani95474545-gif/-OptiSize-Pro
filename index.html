@@ -3,254 +3,152 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StreamTube - YouTube Clone</title>
+    <title>Mr.X - Technology Tips and Tricks</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>X</text></svg>">
 </head>
 <body>
-    <!-- Auth Overlay -->
-    <div id="auth-overlay" class="auth-overlay">
-        <div class="auth-container">
-            <div class="auth-header">
-                <div class="logo">
-                    <i class="fab fa-youtube"></i>
-                    <span>StreamTube</span>
-                </div>
-                <button class="close-btn" id="close-auth">
-                    <i class="fas fa-times"></i>
-                </button>
+    <!-- Header Section -->
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1>Mr.X</h1>
+                <span>Technology Tips & Tricks</span>
             </div>
-            
-            <div class="auth-tabs">
-                <button class="auth-tab active" data-tab="login">Sign In</button>
-                <button class="auth-tab" data-tab="signup">Sign Up</button>
-            </div>
-            
-            <form id="login-form" class="auth-form active">
-                <div class="form-group">
-                    <input type="email" id="login-email" placeholder="Email" required>
-                    <i class="fas fa-envelope"></i>
-                </div>
-                <div class="form-group">
-                    <input type="password" id="login-password" placeholder="Password" required>
-                    <i class="fas fa-lock"></i>
-                </div>
-                <button type="submit" class="auth-btn">Sign In</button>
-                <div class="auth-divider">
-                    <span>or</span>
-                </div>
-                <button type="button" class="auth-btn google-btn">
-                    <i class="fab fa-google"></i>
-                    Sign in with Google
-                </button>
-            </form>
-            
-            <form id="signup-form" class="auth-form">
-                <div class="form-group">
-                    <input type="text" id="signup-username" placeholder="Username" required>
-                    <i class="fas fa-user"></i>
-                </div>
-                <div class="form-group">
-                    <input type="email" id="signup-email" placeholder="Email" required>
-                    <i class="fas fa-envelope"></i>
-                </div>
-                <div class="form-group">
-                    <input type="password" id="signup-password" placeholder="Password" required>
-                    <i class="fas fa-lock"></i>
-                </div>
-                <button type="submit" class="auth-btn">Sign Up</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Main App -->
-    <div id="app" class="app">
-        <!-- Header -->
-        <header class="header">
-            <div class="header-left">
-                <button class="menu-btn" id="menu-btn">
-                    <i class="fas fa-bars"></i>
-                </button>
-                <div class="logo">
-                    <i class="fab fa-youtube"></i>
-                    <span>StreamTube</span>
-                </div>
-            </div>
-            
-            <div class="header-center">
-                <div class="search-container">
-                    <input type="text" id="search-input" placeholder="Search">
-                    <button class="search-btn" id="search-btn">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </div>
-            </div>
-            
-            <div class="header-right">
-                <button class="header-btn" id="upload-btn">
-                    <i class="fas fa-video"></i>
-                    <span>Upload</span>
-                </button>
-                <button class="header-btn" id="auth-trigger">
-                    <i class="fas fa-user"></i>
-                    <span>Sign In</span>
-                </button>
-                <div class="user-profile" id="user-profile">
-                    <!-- User avatar will be inserted here -->
-                </div>
-            </div>
-        </header>
-
-        <!-- Main Content -->
-        <div class="main-container">
-            <!-- Sidebar -->
-            <nav class="sidebar" id="sidebar">
-                <div class="sidebar-section">
-                    <a href="#" class="sidebar-item active">
-                        <i class="fas fa-home"></i>
-                        <span>Home</span>
-                    </a>
-                    <a href="#" class="sidebar-item">
-                        <i class="fas fa-fire"></i>
-                        <span>Trending</span>
-                    </a>
-                    <a href="#" class="sidebar-item">
-                        <i class="fas fa-play-circle"></i>
-                        <span>Subscriptions</span>
-                    </a>
-                </div>
-                
-                <div class="sidebar-section">
-                    <div class="sidebar-divider"></div>
-                    <a href="#" class="sidebar-item">
-                        <i class="fas fa-music"></i>
-                        <span>Music</span>
-                    </a>
-                    <a href="#" class="sidebar-item">
-                        <i class="fas fa-gamepad"></i>
-                        <span>Gaming</span>
-                    </a>
-                    <a href="#" class="sidebar-item">
-                        <i class="fas fa-newspaper"></i>
-                        <span>News</span>
-                    </a>
-                    <a href="#" class="sidebar-item">
-                        <i class="fas fa-trophy"></i>
-                        <span>Sports</span>
-                    </a>
-                </div>
+            <nav>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#videos">Videos</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
             </nav>
-
-            <!-- Content Area -->
-            <main class="content">
-                <!-- Video Grid -->
-                <div class="video-grid" id="video-grid">
-                    <!-- Videos will be dynamically loaded here -->
-                </div>
-            </main>
         </div>
-    </div>
+    </header>
 
-    <!-- Upload Modal -->
-    <div id="upload-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Upload Video</h3>
-                <button class="close-btn" id="close-upload">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <form id="upload-form" class="upload-form">
-                <div class="form-group">
-                    <label for="video-title">Video Title</label>
-                    <input type="text" id="video-title" required>
-                </div>
-                <div class="form-group">
-                    <label for="video-description">Description</label>
-                    <textarea id="video-description" rows="4"></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="video-category">Category</label>
-                    <select id="video-category">
-                        <option value="entertainment">Entertainment</option>
-                        <option value="music">Music</option>
-                        <option value="gaming">Gaming</option>
-                        <option value="education">Education</option>
-                        <option value="sports">Sports</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="video-thumbnail">Thumbnail</label>
-                    <input type="file" id="video-thumbnail" accept="image/*">
-                </div>
-                <div class="form-actions">
-                    <button type="button" class="btn-secondary" id="cancel-upload">Cancel</button>
-                    <button type="submit" class="btn-primary">Upload Video</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Video Player Modal -->
-    <div id="video-modal" class="modal">
-        <div class="modal-content video-modal-content">
-            <button class="close-btn" id="close-video">
-                <i class="fas fa-times"></i>
-            </button>
-            <div class="video-player-container">
-                <div class="video-player" id="video-player">
-                    <!-- Video will be loaded here -->
-                </div>
-                <div class="video-info">
-                    <h1 id="video-modal-title">Video Title</h1>
-                    <div class="video-stats">
-                        <span id="video-views">0 views</span>
-                        <span id="video-date">Jan 1, 2023</span>
-                    </div>
-                    <div class="video-actions">
-                        <div class="action-buttons">
-                            <button class="action-btn" id="like-btn">
-                                <i class="fas fa-thumbs-up"></i>
-                                <span id="like-count">0</span>
-                            </button>
-                            <button class="action-btn" id="dislike-btn">
-                                <i class="fas fa-thumbs-down"></i>
-                                <span id="dislike-count">0</span>
-                            </button>
-                            <button class="action-btn" id="share-btn">
-                                <i class="fas fa-share"></i>
-                                <span>Share</span>
-                            </button>
-                        </div>
-                        <button class="subscribe-btn" id="subscribe-btn">
-                            Subscribe
-                        </button>
-                    </div>
-                    <div class="channel-info">
-                        <div class="channel-avatar" id="channel-avatar">C</div>
-                        <div class="channel-details">
-                            <h4 id="channel-name">Channel Name</h4>
-                            <span id="channel-subs">0 subscribers</span>
-                        </div>
-                    </div>
-                    <div class="video-description">
-                        <p id="video-description-text">Video description goes here...</p>
-                    </div>
-                    <div class="comments-section">
-                        <h3>Comments</h3>
-                        <div class="add-comment">
-                            <div class="comment-avatar" id="comment-user-avatar">U</div>
-                            <input type="text" id="comment-input" placeholder="Add a comment...">
-                        </div>
-                        <div class="comments-list" id="comments-list">
-                            <!-- Comments will be loaded here -->
-                        </div>
-                    </div>
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h2>Master Technology with Mr.X</h2>
+                <p>Your ultimate destination for technology tips, tricks, and tutorials that make tech simple and accessible.</p>
+                <div class="cta-buttons">
+                    <a href="https://youtube.com/@mrxcoming?si=YKiC8-jYZuAnruft" target="_blank" class="btn btn-primary">Watch Videos</a>
+                    <a href="#videos" class="btn btn-secondary">Explore Content</a>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
+
+    <!-- Videos Section -->
+    <section id="videos" class="videos">
+        <div class="container">
+            <h2>Latest Videos</h2>
+            <div class="video-grid">
+                <!-- Video cards will be populated by JavaScript -->
+            </div>
+            <div class="load-more">
+                <button id="loadMoreBtn" class="btn btn-secondary">Load More Videos</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <h2>About Mr.X</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>Welcome to the official website of Mr.X, your trusted source for technology tips and tricks. Our mission is to demystify technology and make it accessible to everyone, regardless of their technical background.</p>
+                    <p>From software shortcuts to hardware hacks, we cover a wide range of topics that help you get the most out of your devices and digital experiences.</p>
+                    <div class="social-links">
+                        <a href="https://youtube.com/@mrxcoming?si=YKiC8-jYZuAnruft" target="_blank" class="social-link youtube">YouTube</a>
+                        <a href="https://www.facebook.com/share/1AQGzN1YSx/" target="_blank" class="social-link facebook">Facebook</a>
+                    </div>
+                </div>
+                <div class="about-image">
+                    <div class="placeholder-logo">Mr.X</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Disclaimer Section -->
+    <section class="disclaimer">
+        <div class="container">
+            <h2>Disclaimer</h2>
+            <div class="disclaimer-content">
+                <p>This channel is made only for educational purposes.</p>
+                <p>We don't promote any illegal or harmful activity.</p>
+                <p>Everything shown here is for learning and awareness only.</p>
+                <p>Please use the information responsibly.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2>Get In Touch</h2>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h3>Connect With Us</h3>
+                    <p>Have questions, suggestions, or collaboration ideas? Reach out to us through our social media channels.</p>
+                    <div class="contact-links">
+                        <a href="https://youtube.com/@mrxcoming?si=YKiC8-jYZuAnruft" target="_blank" class="contact-link">
+                            <span class="icon">▶️</span>
+                            <span>YouTube Channel</span>
+                        </a>
+                        <a href="https://www.facebook.com/share/1AQGzN1YSx/" target="_blank" class="contact-link">
+                            <span class="icon">📘</span>
+                            <span>Facebook Page</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="contact-form">
+                    <h3>Send a Message</h3>
+                    <form id="messageForm">
+                        <div class="form-group">
+                            <input type="text" id="name" placeholder="Your Name" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="email" placeholder="Your Email" required>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="message" placeholder="Your Message" rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h3>Mr.X</h3>
+                    <p>Technology Tips & Tricks</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#home">Home</a>
+                    <a href="#videos">Videos</a>
+                    <a href="#about">About</a>
+                    <a href="#contact">Contact</a>
+                </div>
+                <div class="footer-social">
+                    <a href="https://youtube.com/@mrxcoming?si=YKiC8-jYZuAnruft" target="_blank">YouTube</a>
+                    <a href="https://www.facebook.com/share/1AQGzN1YSx/" target="_blank">Facebook</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 Mr.X. All rights reserved. | For Educational Purposes Only</p>
+            </div>
+        </div>
+    </footer>
 
     <script src="script.js"></script>
 </body>
-    </html>
+                                                   </html>
